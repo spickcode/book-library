@@ -1,18 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useCallback } from 'react';
-const URl = 'http://openlibrary.org/search.json?title=';
+const URL = 'http://openlibrary.org/search.json?title=';
 const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('the lost world');
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [resultTile, setResultTile] = useState('');
+  const [resultTitle, setResultTitle] = useState('');
 
-  constfetchBooks = useCallback(async () => {
+  const fetchBooks = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${url}${searchTerm}`);
+      const response = await fetch(`${URL}${searchTerm}`);
       const data = await response.json();
       const { docs } = data;
 
@@ -26,6 +26,7 @@ const AppProvider = ({ children }) => {
             first_publish_year,
             title,
           } = bookSingle;
+
           return {
             id: key,
             author: author_name,
@@ -39,38 +40,39 @@ const AppProvider = ({ children }) => {
         setBooks(newBooks);
 
         if (newBooks.length > 1) {
-          setResultTile('Your Search Result');
+          setResultTitle('Your Search Result');
         } else {
-          setResultTile('No Search Resilt Found!!');
+          setResultTitle('No Search Result Found!');
         }
       } else {
         setBooks([]);
-        setResultTile('No Search Result Found!!');
+        setResultTitle('No Search Result Found!');
       }
       setLoading(false);
     } catch (error) {
+      console.log(error);
       setLoading(false);
     }
   }, [searchTerm]);
+
+  useEffect(() => {
+    fetchBooks();
+  }, [searchTerm, fetchBooks]);
+
+  return (
+    <AppContext.Provider
+      value={{
+        loading,
+        books,
+        setSearchTerm,
+        resultTitle,
+        setResultTitle,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
 };
-
-useEffect(() => {
-  fetchBooks();
-}, [searchTerm, fetchBooks]);
-
-return (
-  <AppContext.Provider
-    value={{
-      loading,
-      book,
-      setSearchTerm,
-      resultTile,
-      setResultTile,
-    }}
-  >
-    {children}
-  </AppContext.Provider>
-);
 
 export const useGlobalContext = () => {
   return useContext(AppContext);

@@ -13,10 +13,11 @@ const SearchForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let tempSearchTerm = searchText.current.value.trim();
-    if (tempSearchTerm.replace(/[^\w\s]/gi, '').lenght === 0) {
+    if (tempSearchTerm.replace(/[^\w\s]/gi, '').length === 0) {
       setSearchTerm('the lost world');
+      setResultTitle('Please Enter Something ...');
     } else {
-      setSearchTerm(searchTest.current.value);
+      setSearchTerm(searchText.current.value);
     }
 
     navigate('/book');

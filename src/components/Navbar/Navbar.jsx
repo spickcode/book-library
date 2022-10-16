@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link, link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 import logoImg from '../../images/logo.png';
-import { HiOutlineMenuAlt3 } from 'react-icons';
+import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -14,7 +14,7 @@ const Navbar = () => {
         <div className="brand-and-toggler flex flex-sb">
           <Link to="/" className="navbar-brand flex">
             <img src={logoImg} alt="site logo" />
-            <span className="text-uppercase fw-7 fs-24 ls2">My Book</span>
+            <span className="text-uppercase fw-7 fs-24 ls-1">bookhub</span>
           </Link>
           <button
             type="button"
@@ -23,10 +23,13 @@ const Navbar = () => {
           >
             <HiOutlineMenuAlt3
               size={35}
-              style={{ color: `${toggleMenu ? '#fff' : '#010101'}` }}
+              style={{
+                color: `${toggleMenu ? '#fff' : '#010101'}`,
+              }}
             />
           </button>
         </div>
+
         <div
           className={
             toggleMenu
@@ -36,20 +39,20 @@ const Navbar = () => {
         >
           <ul className="navbar-nav">
             <li className="nav-item">
-              <link
+              <Link
                 to="book"
                 className="nav-link text-uppercase text-white fs-22 fw-6 ls-1"
               >
                 Home
-              </link>
+              </Link>
             </li>
             <li className="nav-item">
-              <link
+              <Link
                 to="about"
                 className="nav-link text-uppercase text-white fs-22 fw-6 ls-1"
               >
-                About
-              </link>
+                about
+              </Link>
             </li>
           </ul>
         </div>
